@@ -11,6 +11,8 @@ set -o nounset
 # Use `jq` to add the timestamp and sensor name and pipe to
 # mosquitto_pub to publish
 
-/home/hbarta/bin/pms5003 "/dev/ttyAMA0" 4 | \
+# requirements: install mosquitto-clients and jq (Debian package names.)
+
+"/home/$USER/bin/pms5003" "/dev/ttyAMA0" 4 | \
     /bin/jq -c '. += {"t":'"$(date +%s)"',"sensor":"PMS5003"}'| \
     mosquitto_pub -h mqtt -l -t "HA/$(/bin/hostname)/roamer/particulates"
